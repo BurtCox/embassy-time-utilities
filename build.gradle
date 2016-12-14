@@ -1,0 +1,34 @@
+apply plugin: 'java'
+apply plugin: 'maven' 		// support for deploying artifacts to Maven repositories
+apply plugin: 'eclipse'		// allows the project to be imported into Eclipse
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+version = '1.0'
+
+repositories {
+    flatDir {
+    	name "fileRepo"
+        def userHome = System.getProperty('user.home');
+        dirs userHome + "/.gradleDependenciesCache"
+    }
+	
+	mavenCentral()
+}
+
+// In this section you declare the dependencies for your production and test code
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.21'
+	compile 'org.springframework:spring-context:4.3.4.RELEASE'
+	compile 'joda-time:joda-time:2.9.4'
+
+    testCompile 'junit:junit:4.12'
+}
+
+uploadArchives {
+	repositories {
+		flatDir {
+			dirs System.getProperty('user.home') + '/.gradleDependenciesCache';
+		}
+	}
+}
